@@ -1,0 +1,47 @@
+package usecase
+
+import (
+	"log"
+	"net/http"
+
+	"github.com/dtb/internal/domain"
+	"github.com/dtb/internal/repository"
+	"github.com/google/uuid"
+)
+
+type Resevation interface {
+	FetchCustomerReservationById(r *http.Request)
+	SaveCustomerInfo(w http.ResponseWriter, r *http.Request)
+}
+
+type Reservation struct {
+	customerRepository repository.CustomerRepository
+}
+
+func (re *Reservation) FetchCustomerReservationById(r *http.Request) {
+	customerId := r.FormValue("customerId")
+	id, err := uuid.Parse(customerId)
+	if err != nil {
+		log.Print(err)
+	}
+
+	re.customerRepository.FindCustomerById(id)
+}
+
+func (re *Reservation) SaveCustomerInfo(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+    if customerInfo, err := extractCustomerInfo(r); err != nil{
+
+    }
+	id, err := uuid.Parse(customerId)
+	if err != nil {
+		log.Print(err)
+	}
+
+	re.customerRepository.SaveCustomerInfo(ctx, customerInfo)
+}
+
+func extractCustomerInfo(r *http.Request) (*domain.CustomerInfo, error) {
+
+	return &domain.CustomerInfo{}, nil
+}

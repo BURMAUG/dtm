@@ -12,6 +12,7 @@ import (
 )
 
 var customerRepsitory repository.Customer
+var email EmailUsecase
 
 type Resevation interface {
 	GetCustomerReservation(ctx context.Context, r *http.Request)
@@ -27,7 +28,15 @@ func (c *CustomerReservationUsecase) MakeReservation(ctx context.Context, r *htt
 		log.Print(err)
 		return
 	}
-	customerRepsitory.SaveCustomerInfo(ctx, customer)
+	customerRepsitory = &repository.CustomerInfo{}
+	err = customerRepsitory.SaveCustomerInfo(ctx, customer)
+	if err != nil {
+		log.Print(err)
+		return
+	}
+	//send us email first
+	email = EmailUsecase{CustomerInfo: *customer}
+	email.SendAdminEmail()
 
 }
 
@@ -44,12 +53,12 @@ func extractCustomerData(r *http.Request) (*domain.CustomerInfo, error) {
 	pickUp, drop, err := extractAddress(r)
 	check(err)
 
-	id, err := uuid.Parse(r.FormValue("id"))
+	id, err := uuid.NewUUID()
 	check(err)
 
-	time, err := time.Parse(time.RFC3339, r.FormValue("date"))
-	check(err)
-
+	// time, err := time.Parse(time.RFC3339, r.FormValue("date"))
+	// check(err)
+	time := time.Now()
 	customer := &domain.CustomerInfo{
 		CustomerId:     id,
 		Name:           r.FormValue("name"),
@@ -65,7 +74,7 @@ func extractCustomerData(r *http.Request) (*domain.CustomerInfo, error) {
 }
 
 func extractAddress(r *http.Request) (domain.Addr, domain.Addr, error) {
-	id, err := uuid.Parse(r.FormValue("addId"))
+	id, err := uuid.NewUUID()
 	check(err)
 
 	line := r.FormValue("paddr")

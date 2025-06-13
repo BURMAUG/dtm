@@ -6,8 +6,7 @@ import (
 	"github.com/google/uuid"
 )
 
-type Customer interface {
-}
+type Customer any // revisit wha this is and why it is here
 
 type Addr struct {
 	AddressId uuid.UUID `gorm:"primarykey;type:uuid;column:address_id"`

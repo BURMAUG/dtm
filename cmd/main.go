@@ -8,8 +8,8 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/landing", delivery.Landing)
-	http.HandleFunc("/form", delivery.ServeForm)
+	http.HandleFunc("/landing", delivery.Landing) // home index.gohtm
+	http.HandleFunc("/form", delivery.ServeForm)  //form.gohtml
 	http.HandleFunc("/submit", delivery.Form)
 	http.HandleFunc("/reserve", delivery.CustomerReservation)
 

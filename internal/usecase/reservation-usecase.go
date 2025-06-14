@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/dtm/internal/domain"
@@ -76,9 +77,23 @@ func extractCustomerData(r *http.Request) (*domain.CustomerInfo, error) {
 
 func extractAddress(r *http.Request) (domain.Addr, domain.Addr, error) {
 
-	pickUpAddr := getAddress("p", r)
+	var pickUpAddr *domain.Addr
+	var dropOffAddress *domain.Addr
 
-	dropOffAddress := getAddress("d", r)
+	var wg sync.WaitGroup
+
+	wg.Add(1)
+	go func() {
+		pickUpAddr = getAddress("p", r)
+		wg.Done()
+	}()
+
+	wg.Add(1)
+	go func() {
+		dropOffAddress = getAddress("p", r)
+		wg.Done()
+	}()
+	wg.Wait()
 
 	return *pickUpAddr, *dropOffAddress, nil
 }

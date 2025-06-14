@@ -24,6 +24,7 @@ type CustomerReservationUsecase struct {
 
 func (c *CustomerReservationUsecase) MakeReservation(ctx context.Context, r *http.Request) {
 	customer, err := extractCustomerData(r)
+	email = EmailUsecase{CustomerInfo: *customer}
 	if err != nil {
 		log.Print(err)
 		return
@@ -34,10 +35,10 @@ func (c *CustomerReservationUsecase) MakeReservation(ctx context.Context, r *htt
 		log.Print(err)
 		return
 	}
-	//send us email first
-	email = EmailUsecase{CustomerInfo: *customer}
-	email.SendAdminEmail()
-
+	// non blocking
+	go func() { email.SendAdminEmail() }()
+	// non blocking
+	go func() { email.SendCustomerEmail() }()
 }
 
 func (c *CustomerReservationUsecase) GetCustomerReservation(ctx context.Context, r *http.Request) {
@@ -51,10 +52,10 @@ func (c *CustomerReservationUsecase) GetCustomerReservation(ctx context.Context,
 
 func extractCustomerData(r *http.Request) (*domain.CustomerInfo, error) {
 	pickUp, drop, err := extractAddress(r)
-	check(err)
+	go func() { check(err) }()
 
 	id, err := uuid.NewUUID()
-	check(err)
+	go func() { check(err) }()
 
 	// time, err := time.Parse(time.RFC3339, r.FormValue("date"))
 	// check(err)
@@ -74,66 +75,43 @@ func extractCustomerData(r *http.Request) (*domain.CustomerInfo, error) {
 }
 
 func extractAddress(r *http.Request) (domain.Addr, domain.Addr, error) {
+
+	pickUpAddr := getAddress("p", r)
+
+	dropOffAddress := getAddress("d", r)
+
+	return *pickUpAddr, *dropOffAddress, nil
+}
+
+func getAddress(s string, r *http.Request) *domain.Addr {
 	id, err := uuid.NewUUID()
-	check(err)
-
-	line := r.FormValue("paddr")
+	go func() { check(err) }()
+	line := r.FormValue(s + "addr")
 	if isEmpty(line) {
 		log.Print(line)
 	}
 
-	city := r.FormValue("pcity")
+	city := r.FormValue(s + "city")
 	if isEmpty(city) {
 		log.Print(city)
 	}
 
-	state := r.FormValue("pstate")
+	state := r.FormValue(s + "state")
 	if isEmpty(state) {
 		log.Print(state)
 	}
 
-	zip := r.FormValue("pzip")
+	zip := r.FormValue(s + "zip")
 	if isEmpty(zip) {
 		log.Print(zip)
 	}
-
-	pickUpAddr := domain.Addr{
+	return &domain.Addr{
 		AddressId: id,
 		Address:   line,
 		City:      city,
 		State:     state,
 		Zip:       zip,
 	}
-
-	line = r.FormValue("daddr")
-	if isEmpty(line) {
-		log.Print(line)
-	}
-
-	city = r.FormValue("dcity")
-	if isEmpty(city) {
-		log.Print(city)
-	}
-
-	state = r.FormValue("dstate")
-	if isEmpty(state) {
-		log.Print(state)
-	}
-
-	zip = r.FormValue("dzip")
-	if isEmpty(zip) {
-		log.Print(zip)
-	}
-
-	dropOffAddress := domain.Addr{
-		AddressId: id,
-		Address:   line,
-		City:      city,
-		State:     state,
-		Zip:       zip,
-	}
-
-	return pickUpAddr, dropOffAddress, nil
 }
 func check(err error) {
 	if err != nil {

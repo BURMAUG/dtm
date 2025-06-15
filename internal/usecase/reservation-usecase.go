@@ -24,11 +24,7 @@ type CustomerReservationUsecase struct {
 }
 
 func (c *CustomerReservationUsecase) MakeReservation(ctx context.Context, r *http.Request) {
-	var wg sync.WaitGroup
-	wg.Add(1)
 	customer, err := extractCustomerData(r)
-	wg.Done()
-	wg.Wait()
 
 	email = EmailUsecase{CustomerInfo: *customer}
 	if err != nil {
@@ -63,6 +59,8 @@ func (c *CustomerReservationUsecase) GetCustomerReservation(ctx context.Context,
 }
 
 func extractCustomerData(r *http.Request) (*domain.CustomerInfo, error) {
+	var wg sync.WaitGroup
+	wg.Add(1)
 	pickUp, drop, err := extractAddress(r)
 	go func() { check(err) }()
 
@@ -84,6 +82,8 @@ func extractCustomerData(r *http.Request) (*domain.CustomerInfo, error) {
 		DropOffAddress: drop,
 		Date:           time,
 	}
+	wg.Done()
+	wg.Wait()
 	return customer, nil
 }
 

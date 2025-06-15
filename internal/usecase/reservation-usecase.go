@@ -98,25 +98,25 @@ func extractAddress(r *http.Request) (domain.Addr, domain.Addr, error) {
 	return *pickUpAddr, *dropOffAddress, nil
 }
 
-func getAddress(s string, r *http.Request) *domain.Addr {
+func getAddress(prefix string, r *http.Request) *domain.Addr {
 	id, err := uuid.NewUUID()
 	go func() { check(err) }()
-	line := r.FormValue(s + "addr")
+	line := r.FormValue(prefix + "addr")
 	if isEmpty(line) {
 		log.Print(line)
 	}
 
-	city := r.FormValue(s + "city")
+	city := r.FormValue(prefix + "city")
 	if isEmpty(city) {
 		log.Print(city)
 	}
 
-	state := r.FormValue(s + "state")
+	state := r.FormValue(prefix + "state")
 	if isEmpty(state) {
 		log.Print(state)
 	}
 
-	zip := r.FormValue(s + "zip")
+	zip := r.FormValue(prefix + "zip")
 	if isEmpty(zip) {
 		log.Print(zip)
 	}

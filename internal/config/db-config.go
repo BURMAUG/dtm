@@ -14,6 +14,7 @@ var (
 	err error
 )
 
+// / Connects to a database
 func init() {
 	dsn := "host=localhost user=myuser password=password dbname=mydb port=5432 sslmode=disable"
 	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})

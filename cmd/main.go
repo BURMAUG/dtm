@@ -8,13 +8,11 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/", delivery.Landing)       // home index.gohtm
-	http.HandleFunc("/form", delivery.ServeForm) //form.gohtml
+
+	http.HandleFunc("/landing", delivery.Landing)
+	http.HandleFunc("/form", delivery.ServeForm)
 	http.HandleFunc("/submit", delivery.Form)
 	http.HandleFunc("/reserve", delivery.CustomerReservation)
-
-	//NotFound test
-	http.HandleFunc("", http.NotFound) //this should be deleted as it is not needed at all!
 
 	http.ListenAndServe(":8080", nil)
 }

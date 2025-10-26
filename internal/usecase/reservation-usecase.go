@@ -4,7 +4,6 @@ import (
 	"context"
 	"log"
 	"net/http"
-	"sync"
 	"time"
 
 	"github.com/dtm/internal/domain"
@@ -16,11 +15,12 @@ var customerRepsitory repository.Customer
 var email EmailUsecase
 
 type Resevation interface {
-	GetCustomerReservation(ctx context.Context, r *http.Request) // why is this get? it does not return anything
-	MakeReservation(w http.ResponseWriter, r *http.Request)      // can return void
+	GetCustomerReservation(ctx context.Context, r *http.Request)
+	MakeReservation(w http.ResponseWriter, r *http.Request)
 }
 
-type CustomerReservationUsecase struct{}
+type CustomerReservationUsecase struct {
+}
 
 func (c *CustomerReservationUsecase) MakeReservation(ctx context.Context, r *http.Request) {
 	customer, err := extractCustomerData(r)
@@ -28,25 +28,16 @@ func (c *CustomerReservationUsecase) MakeReservation(ctx context.Context, r *htt
 		log.Print(err)
 		return
 	}
-
-	email = EmailUsecase{CustomerInfo: *customer}
-
 	customerRepsitory = &repository.CustomerInfo{}
 	err = customerRepsitory.SaveCustomerInfo(ctx, customer)
 	if err != nil {
 		log.Print(err)
 		return
 	}
+	//send us email first
+	email = EmailUsecase{CustomerInfo: *customer}
+	email.SendAdminEmail()
 
-	// non blocking
-	go func() {
-		email.SendEmail()
-	}()
-
-	// non blocking
-	go func() {
-		email.SendEmail()
-	}()
 }
 
 func (c *CustomerReservationUsecase) GetCustomerReservation(ctx context.Context, r *http.Request) {
@@ -59,18 +50,15 @@ func (c *CustomerReservationUsecase) GetCustomerReservation(ctx context.Context,
 }
 
 func extractCustomerData(r *http.Request) (*domain.CustomerInfo, error) {
-	var wg sync.WaitGroup
-	wg.Add(1)
 	pickUp, drop, err := extractAddress(r)
-	go func() { check(err) }()
+	check(err)
 
 	id, err := uuid.NewUUID()
-	go func() { check(err) }()
+	check(err)
 
 	// time, err := time.Parse(time.RFC3339, r.FormValue("date"))
 	// check(err)
-	time := time.Now() //Todo() this has to change
-
+	time := time.Now()
 	customer := &domain.CustomerInfo{
 		CustomerId:     id,
 		Name:           r.FormValue("name"),
@@ -82,65 +70,71 @@ func extractCustomerData(r *http.Request) (*domain.CustomerInfo, error) {
 		DropOffAddress: drop,
 		Date:           time,
 	}
-	wg.Done()
-	wg.Wait()
 	return customer, nil
 }
 
 func extractAddress(r *http.Request) (domain.Addr, domain.Addr, error) {
-
-	var pickUpAddr *domain.Addr
-	var dropOffAddress *domain.Addr
-
-	var wg sync.WaitGroup
-
-	wg.Add(1)
-	go func() {
-		pickUpAddr = getAddress("p", r)
-		wg.Done()
-	}()
-
-	wg.Add(1)
-	go func() {
-		dropOffAddress = getAddress("p", r)
-		wg.Done()
-	}()
-	wg.Wait()
-
-	return *pickUpAddr, *dropOffAddress, nil
-}
-
-func getAddress(prefix string, r *http.Request) *domain.Addr {
 	id, err := uuid.NewUUID()
-	go func() { check(err) }()
-	line := r.FormValue(prefix + "addr")
+	check(err)
+
+	line := r.FormValue("paddr")
 	if isEmpty(line) {
 		log.Print(line)
 	}
 
-	city := r.FormValue(prefix + "city")
+	city := r.FormValue("pcity")
 	if isEmpty(city) {
 		log.Print(city)
 	}
 
-	state := r.FormValue(prefix + "state")
+	state := r.FormValue("pstate")
 	if isEmpty(state) {
 		log.Print(state)
 	}
 
-	zip := r.FormValue(prefix + "zip")
+	zip := r.FormValue("pzip")
 	if isEmpty(zip) {
 		log.Print(zip)
 	}
-	return &domain.Addr{
+
+	pickUpAddr := domain.Addr{
 		AddressId: id,
 		Address:   line,
 		City:      city,
 		State:     state,
 		Zip:       zip,
 	}
-}
 
+	line = r.FormValue("daddr")
+	if isEmpty(line) {
+		log.Print(line)
+	}
+
+	city = r.FormValue("dcity")
+	if isEmpty(city) {
+		log.Print(city)
+	}
+
+	state = r.FormValue("dstate")
+	if isEmpty(state) {
+		log.Print(state)
+	}
+
+	zip = r.FormValue("dzip")
+	if isEmpty(zip) {
+		log.Print(zip)
+	}
+
+	dropOffAddress := domain.Addr{
+		AddressId: id,
+		Address:   line,
+		City:      city,
+		State:     state,
+		Zip:       zip,
+	}
+
+	return pickUpAddr, dropOffAddress, nil
+}
 func check(err error) {
 	if err != nil {
 		log.Panic(err)

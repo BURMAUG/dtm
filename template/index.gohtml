@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HTMX Example</title>
+  <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+  <header class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-6 flex justify-between items-center">
+      <h1 class="text-2xl font-bold">My WebApp</h1>
+      <nav class="space-x-4">
+        <a href="/form" class="text-gray-700 hover:text-blue-500" >Make Reservation</a>
+        <a href="/" class="text-gray-700 hover:text-blue-500" >About</a>
+        <a href="#" class="text-gray-700 hover:text-blue-500">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+
+  <button hx-get="/form" 
+          hx-target="#cont"
+    hx-swap="innnerHTML">
+    
+    New Reservation
+  </button>
+  
+  <div id="cont">
+  </div>
+</body>
+</html>
+

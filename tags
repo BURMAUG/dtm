@@ -1,0 +1,86 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/home/burmau/dtm/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	//
+Addr	internal/domain/customer.go	/^type Addr struct {$/;"	s	package:domain
+Address	internal/domain/customer.go	/^	Address   string    `gorm:"not null;column:address"`$/;"	m	struct:domain.Addr	typeref:typename:string
+AddressId	internal/domain/customer.go	/^	AddressId uuid.UUID `gorm:"primarykey;type:uuid;column:address_id"`$/;"	m	struct:domain.Addr	typeref:typename:uuid.UUID
+City	internal/domain/customer.go	/^	City      string    `gorm:"not null;column:city"`$/;"	m	struct:domain.Addr	typeref:typename:string
+Conn	internal/config/db-config.go	/^func Conn() *gorm.DB {$/;"	f	package:config	typeref:typename:*gorm.DB
+Customer	internal/domain/customer.go	/^type Customer any \/\/ revisit what this is and why it is here$/;"	t	package:domain	typeref:typename:any
+Customer	internal/repository/reservation-repository.go	/^type Customer interface {$/;"	i	package:repository
+CustomerId	internal/domain/customer.go	/^	CustomerId     uuid.UUID `gorm:"primarykey;type:uuid;column:customer_id"`$/;"	m	struct:domain.CustomerInfo	typeref:typename:uuid.UUID
+CustomerInfo	internal/domain/customer.go	/^type CustomerInfo struct {$/;"	s	package:domain
+CustomerInfo	internal/repository/reservation-repository.go	/^type CustomerInfo struct{}$/;"	s	package:repository
+CustomerInfo	internal/usecase/email-usecase.go	/^	CustomerInfo domain.CustomerInfo$/;"	m	struct:usecase.EmailUsecase	typeref:typename:domain.CustomerInfo
+CustomerReservation	internal/delivery/reservation-delivery.go	/^func CustomerReservation(w http.ResponseWriter, r *http.Request) {$/;"	f	package:delivery
+CustomerReservationUsecase	internal/usecase/reservation-usecase.go	/^type CustomerReservationUsecase struct{}$/;"	s	package:usecase
+Date	internal/domain/customer.go	/^	Date           time.Time `gorm:"not null;column:date_and_time"`$/;"	m	struct:domain.CustomerInfo	typeref:typename:time.Time
+DropOffAddress	internal/domain/customer.go	/^	DropOffAddress Addr      `gorm:"embedded;embeddedPrefix:drop_off-"`$/;"	m	struct:domain.CustomerInfo	typeref:typename:Addr
+Email	internal/domain/customer.go	/^	Email          string    `gorm:"not null;column:email"`$/;"	m	struct:domain.CustomerInfo	typeref:typename:string
+Email	internal/usecase/email-usecase.go	/^type Email interface {$/;"	i	package:usecase
+EmailUsecase	internal/usecase/email-usecase.go	/^type EmailUsecase struct {$/;"	s	package:usecase
+FindCustomerById	internal/repository/reservation-repository.go	/^	FindCustomerById(ctx context.Context, id uuid.UUID)$/;"	n	interface:repository.Customer
+FindCustomerById	internal/repository/reservation-repository.go	/^func (c *CustomerInfo) FindCustomerById(ctx context.Context, id uuid.UUID) {$/;"	f	struct:repository.CustomerInfo
+Form	internal/delivery/reservation-delivery.go	/^func Form(w http.ResponseWriter, r *http.Request) {$/;"	f	package:delivery
+From	internal/config/email-config.go	/^	From     string$/;"	m	struct:config.SMTPConfig	typeref:typename:string
+GetCustomerReservation	internal/usecase/reservation-usecase.go	/^	GetCustomerReservation(ctx context.Context, r *http.Request) \/\/ why is this get? it does not /;"	n	interface:usecase.Resevation
+GetCustomerReservation	internal/usecase/reservation-usecase.go	/^func (c *CustomerReservationUsecase) GetCustomerReservation(ctx context.Context, r *http.Request/;"	f	struct:usecase.CustomerReservationUsecase
+Host	internal/config/email-config.go	/^	Host     string$/;"	m	struct:config.SMTPConfig	typeref:typename:string
+House	internal/domain/customer.go	/^	House          bool      `gorm:"not null;column:is_house"`$/;"	m	struct:domain.CustomerInfo	typeref:typename:bool
+Landing	internal/delivery/reservation-delivery.go	/^func Landing(w http.ResponseWriter, r *http.Request) {$/;"	f	package:delivery
+LoadSMTPConfig	internal/config/email-config.go	/^func LoadSMTPConfig() *SMTPConfig {$/;"	f	package:config	typeref:typename:*SMTPConfig
+MakeReservation	internal/usecase/reservation-usecase.go	/^	MakeReservation(w http.ResponseWriter, r *http.Request)      \/\/ can return void$/;"	n	interface:usecase.Resevation
+MakeReservation	internal/usecase/reservation-usecase.go	/^func (c *CustomerReservationUsecase) MakeReservation(ctx context.Context, r *http.Request) {$/;"	f	struct:usecase.CustomerReservationUsecase
+Name	internal/domain/customer.go	/^	Name           string    `gorm:"not null;column:name"`$/;"	m	struct:domain.CustomerInfo	typeref:typename:string
+NumberOfRooms	internal/domain/customer.go	/^	NumberOfRooms  int       `gorm:"not null;column:number_of_rooms"`$/;"	m	struct:domain.CustomerInfo	typeref:typename:int
+Password	internal/config/email-config.go	/^	Password string$/;"	m	struct:config.SMTPConfig	typeref:typename:string
+Phone	internal/domain/customer.go	/^	Phone          string    `gorm:"not null;column:phone"`$/;"	m	struct:domain.CustomerInfo	typeref:typename:string
+PickAddress	internal/domain/customer.go	/^	PickAddress    Addr      `gorm:"embedded;embeddedPrefix:pick_up_"`$/;"	m	struct:domain.CustomerInfo	typeref:typename:Addr
+Port	internal/config/email-config.go	/^	Port     int$/;"	m	struct:config.SMTPConfig	typeref:typename:int
+Resevation	internal/usecase/reservation-usecase.go	/^type Resevation interface {$/;"	i	package:usecase
+SMTPConfig	internal/config/email-config.go	/^type SMTPConfig struct {$/;"	s	package:config
+SaveCustomerInfo	internal/repository/reservation-repository.go	/^	SaveCustomerInfo(ctx context.Context, customerInfo *domain.CustomerInfo) error$/;"	n	interface:repository.Customer	typeref:typename:error
+SaveCustomerInfo	internal/repository/reservation-repository.go	/^func (c *CustomerInfo) SaveCustomerInfo(ctx context.Context, customerInfo *domain.CustomerInfo) /;"	f	struct:repository.CustomerInfo	typeref:typename:error
+SendEmail	internal/usecase/email-usecase.go	/^	SendEmail()$/;"	n	interface:usecase.Email
+SendEmail	internal/usecase/email-usecase.go	/^func (e *EmailUsecase) SendEmail() {$/;"	f	struct:usecase.EmailUsecase
+ServeForm	internal/delivery/reservation-delivery.go	/^func ServeForm(w http.ResponseWriter, r *http.Request) {$/;"	f	package:delivery
+State	internal/domain/customer.go	/^	State     string    `gorm:"not null;column:state"`$/;"	m	struct:domain.Addr	typeref:typename:string
+Username	internal/config/email-config.go	/^	Username string$/;"	m	struct:config.SMTPConfig	typeref:typename:string
+Zip	internal/domain/customer.go	/^	Zip       string    `gorm:"not null;column:zip"`$/;"	m	struct:domain.Addr	typeref:typename:string
+check	internal/usecase/reservation-usecase.go	/^func check(err error) {$/;"	f	package:usecase
+config	internal/config/db-config.go	/^package config$/;"	p
+config	internal/config/email-config.go	/^package config$/;"	p
+customerRepsitory	internal/usecase/reservation-usecase.go	/^var customerRepsitory repository.Customer$/;"	v	package:usecase	typeref:typename:repository.Customer
+customerReservation	internal/delivery/reservation-delivery.go	/^var customerReservation = usecase.CustomerReservationUsecase{}$/;"	v	package:delivery
+db	internal/config/db-config.go	/^	db  *gorm.DB$/;"	v	package:config	typeref:typename:*gorm.DB
+db	internal/repository/reservation-repository.go	/^var db = config.Conn()$/;"	v	package:repository
+delivery	internal/delivery/reservation-delivery.go	/^package delivery$/;"	p
+domain	internal/domain/coaster.go	/^package domain$/;"	p
+domain	internal/domain/customer.go	/^package domain$/;"	p
+email	internal/usecase/reservation-usecase.go	/^var email EmailUsecase$/;"	v	package:usecase	typeref:typename:EmailUsecase
+err	internal/config/db-config.go	/^	err error$/;"	v	package:config	typeref:typename:error
+extractAddress	internal/usecase/reservation-usecase.go	/^func extractAddress(r *http.Request) (domain.Addr, domain.Addr, error) {$/;"	f	package:usecase	typeref:typename:(domain.Addr, domain.Addr, error)
+extractCustomerData	internal/usecase/reservation-usecase.go	/^func extractCustomerData(r *http.Request) (*domain.CustomerInfo, error) {$/;"	f	package:usecase	typeref:typename:(*domain.CustomerInfo, error)
+formHTML	internal/delivery/reservation-delivery.go	/^	formHTML        = "..\/template\/form.gohtml"$/;"	c	package:delivery
+formatAddress	internal/usecase/email-usecase.go	/^	formatAddress() (string, error)$/;"	n	interface:usecase.Email	typeref:typename:(string, error)
+formatAddress	internal/usecase/email-usecase.go	/^func (e *EmailUsecase) formatAddress() (string, string, error) {$/;"	f	struct:usecase.EmailUsecase	typeref:typename:(string, string, error)
+getAddress	internal/usecase/reservation-usecase.go	/^func getAddress(prefix string, r *http.Request) *domain.Addr {$/;"	f	package:usecase	typeref:typename:*domain.Addr
+indexHTML	internal/delivery/reservation-delivery.go	/^	indexHTML       = "..\/template\/index.gohtml"$/;"	c	package:delivery
+init	internal/config/db-config.go	/^func init() {$/;"	f	package:config
+isEmpty	internal/usecase/reservation-usecase.go	/^func isEmpty(str string) bool {$/;"	f	package:usecase	typeref:typename:bool
+main	cmd/main.go	/^func main() {$/;"	f	package:main
+main	cmd/main.go	/^package main$/;"	p
+repository	internal/repository/reservation-repository.go	/^package repository$/;"	p
+reservationHTML	internal/delivery/reservation-delivery.go	/^	reservationHTML = "..\/template\/reservation.gohtml"$/;"	c	package:delivery
+smtp	internal/config/email-config.go	/^var smtp any$/;"	v	package:config	typeref:typename:any
+thanksHTML	internal/delivery/reservation-delivery.go	/^	thanksHTML      = "..\/template\/thanks.gohtml"$/;"	c	package:delivery
+usecase	internal/usecase/email-usecase.go	/^package usecase$/;"	p
+usecase	internal/usecase/reservation-usecase.go	/^package usecase$/;"	p

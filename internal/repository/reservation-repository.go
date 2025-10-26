@@ -12,16 +12,24 @@ import (
 var db = config.Conn()
 
 type Customer interface {
-	FindCustomerById(ctx context.Context, id uuid.UUID)
+	FindCustomerById(ctx context.Context, id uuid.UUID) (CustomerInfo, error)
 	SaveCustomerInfo(ctx context.Context, customerInfo *domain.CustomerInfo) error
 }
 
 type CustomerInfo struct{}
 
-func (c *CustomerInfo) FindCustomerById(ctx context.Context, id uuid.UUID) {
+// FindCustomerById finds a customer by an id I think if you find something
+// it should be return
+func (c *CustomerInfo) FindCustomerById(ctx context.Context, id uuid.UUID) (CustomerInfo, error) {
 	db.WithContext(ctx).First(&domain.CustomerInfo{}, "customer_id = ? ", id)
+	// todo return CustomerInfo
+
+	//todo
+	return CustomerInfo{}, nil
 }
 
+// SaveCustomerInfo public function that takes customerInfo and saves it in the database of choice
+// returns an error if any
 func (c *CustomerInfo) SaveCustomerInfo(ctx context.Context, customerInfo *domain.CustomerInfo) error {
 	log.Print("@@@@@@@@@@@@@@@@@@@Customer", customerInfo)
 	log.Print("@@@@@@@@@@DB", db)
@@ -31,5 +39,4 @@ func (c *CustomerInfo) SaveCustomerInfo(ctx context.Context, customerInfo *domai
 		return err
 	}
 	return nil
-
 }

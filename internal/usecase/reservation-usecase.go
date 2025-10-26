@@ -16,21 +16,21 @@ var customerRepsitory repository.Customer
 var email EmailUsecase
 
 type Resevation interface {
-	GetCustomerReservation(ctx context.Context, r *http.Request)
-	MakeReservation(w http.ResponseWriter, r *http.Request)
+	GetCustomerReservation(ctx context.Context, r *http.Request) // why is this get? it does not return anything
+	MakeReservation(w http.ResponseWriter, r *http.Request)      // can return void
 }
 
-type CustomerReservationUsecase struct {
-}
+type CustomerReservationUsecase struct{}
 
 func (c *CustomerReservationUsecase) MakeReservation(ctx context.Context, r *http.Request) {
 	customer, err := extractCustomerData(r)
-
-	email = EmailUsecase{CustomerInfo: *customer}
 	if err != nil {
 		log.Print(err)
 		return
 	}
+
+	email = EmailUsecase{CustomerInfo: *customer}
+
 	customerRepsitory = &repository.CustomerInfo{}
 	err = customerRepsitory.SaveCustomerInfo(ctx, customer)
 	if err != nil {
@@ -69,7 +69,7 @@ func extractCustomerData(r *http.Request) (*domain.CustomerInfo, error) {
 
 	// time, err := time.Parse(time.RFC3339, r.FormValue("date"))
 	// check(err)
-	time := time.Now()
+	time := time.Now() //Todo() this has to change
 
 	customer := &domain.CustomerInfo{
 		CustomerId:     id,
@@ -140,6 +140,7 @@ func getAddress(prefix string, r *http.Request) *domain.Addr {
 		Zip:       zip,
 	}
 }
+
 func check(err error) {
 	if err != nil {
 		log.Panic(err)

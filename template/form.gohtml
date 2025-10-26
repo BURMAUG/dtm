@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HTMX Form</title>
+  <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-6 flex justify-between items-center">
+      <h1 cass="text-2xl font-bold">My WebApp</h1>
+      <nav class="space-x-4">
+        <a href="/form" class="text-gray-700 hover:text-blue-500">Make Reservation</a>
+        <a href="/" class="text-gray-700 hover:text-blue-500">About</a>
+        <a href="#" class="text-gray-700 hover:text-blue-500">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Form Section -->
+  <main class="flex-grow flex items-center justify-center px-4">
+    <div class="bg-white p-10 rounded-xl shadow-xl w-full max-w-4xl min-h-[80vh] flex flex-col justify-center">
+      <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Submit Reservation</h2>
+
+      <form  class="space-y-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <input type="email" name="email" placeholder="Email" required class="input" />
+          <input type="tel" name="phone" placeholder="Phone" required class="input" />
+          <input type="text" name="apartment" placeholder="Apartment (true/false)" class="input" />
+          <input type="number" name="rooms" placeholder="Number of Rooms" class="input" />
+        </div>
+
+        <!-- Pickup Address -->
+        <div>
+          <h3 class="font-semibold text-lg text-gray-700 mb-2">Pickup Address</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <input type="text" name="paddr" placeholder="Address" class="input" />
+            <input type="text" name="pcity" placeholder="City" class="input" />
+            <input type="text" name="pstate" placeholder="State" class="input" />
+            <input type="text" name="pzip" placeholder="Zip" class="input" />
+          </div>
+        </div>
+
+        <!-- Drop-off Address -->
+        <div>
+          <h3 class="font-semibold text-lg text-gray-700 mb-2">Drop-off Address</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <input type="text" name="daddr" placeholder="Drop off Address" class="input" />
+            <input type="text" name="dcity" placeholder="Drop off City" class="input" />
+            <input type="text" name="dstate" placeholder="Drop off State" class="input" />
+            <input type="text" name="dzip" placeholder="Zip" class="input" />
+          </div>
+        </div>
+
+        <!-- Date and Time -->
+        <div>
+          <label for="dtime" class="block text-sm font-medium text-gray-700 mb-1">Pickup Date & Time</label>
+          <input type="datetime-local" name="dtime" id="dtime" required class="input w-full" />
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center">
+          <button type="submit"
+                  hx-post="/submit"
+                  hx-target=".flex-grow"
+                  hx-swap=".flex-grow"
+                  class="bg-blue-600 text-white px-8 py-3 rounded-md hover:bg-blue-700 transition shadow"> Submit Reservation </button>
+        </div>
+
+      </form>
+    </div>
+  </main>
+
+  <!-- Tailwind custom input styling -->
+  <style>
+    .input {
+      @apply mt-1 w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 px-4 py-2;
+    }
+  </style>
+
+</body>
+</html>
+

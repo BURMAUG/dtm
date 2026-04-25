@@ -3,7 +3,6 @@ package main
 import (
 	"net/http"
 
-	_ "github.com/dtm/internal/config"
 	"github.com/dtm/internal/delivery"
 )
 
